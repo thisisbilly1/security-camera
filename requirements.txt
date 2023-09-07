@@ -1,0 +1,5 @@
+python-socketio
+python-dotenv
+numpy
+opencv-python
+requests
