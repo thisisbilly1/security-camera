@@ -8,6 +8,10 @@ class Camera(threading.Thread):
     self.cap = cv2.VideoCapture(0)
     # self.cap = cv2.VideoCapture('test.mp4')
 
+    # set the max resolution to 960x720
+    self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
+    self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
     self.frame = None
     self.lock = threading.Lock()
     self.stopped = False

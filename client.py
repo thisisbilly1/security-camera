@@ -3,8 +3,9 @@ import threading
 import time
 
 class Client(threading.Thread):
-  def __init__(self):
+  def __init__(self, camera):
     super(Client, self).__init__()
+    self.camera = camera
     self.uri = "http://localhost:4000"
     self.websocket = socketio.Client()
 
@@ -28,6 +29,8 @@ class Client(threading.Thread):
   def on_message(self, id, data = None):
     if (id == 'pong'):
       self.pong()
+    elif (id == 'nightMode'):
+      self.camera.toggleNightMode()
 
   def pong(self):
     print('pong')

@@ -37,12 +37,7 @@ def thumbnail():
     else:
         return Response(status=500)
 
-@app.route('/nightmode')
-def nightmode():
-    camera.toggleNightMode()
-    return Response(status=200)
-
 if __name__ == '__main__':
-    ws_client = Client()
+    ws_client = Client(camera)
     ws_client.start()
     app.run(host='0.0.0.0', port=5000)
