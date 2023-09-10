@@ -36,7 +36,11 @@ def thumbnail():
         return Response(frame_bytes, mimetype='image/jpeg')
     else:
         return Response(status=500)
-   
+
+@app.route('/nightmode')
+def nightmode():
+    camera.toggleNightMode()
+    return Response(status=200)
 
 if __name__ == '__main__':
     ws_client = Client()

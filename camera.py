@@ -14,9 +14,20 @@ class Camera(threading.Thread):
 
     self.max_frame_rate = 30
     self.frame_interval = 1.0 / self.max_frame_rate
+
+    self.nightMode = False
     
     # set the daemon thread to true so that the thread will stop when the main thread stops
     self.daemon = True
+  
+  def toggleNightMode(self):
+    self.nightMode = not self.nightMode
+    if self.nightMode:
+      self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+      self.cap.set(cv2.CAP_PROP_EXPOSURE, 0.01)
+    else:
+      self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.75)
+      self.cap.set(cv2.CAP_PROP_EXPOSURE, 0.25)
 
   def run(self):
     while not self.stopped:
