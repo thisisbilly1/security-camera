@@ -26,9 +26,8 @@ class Client(threading.Thread):
 
 
   def on_message(self, id, data = None):
-    match id:
-      case 'pong':
-        self.pong()
+    if (id == 'pong'):
+      self.pong()
 
   def pong(self):
     print('pong')
