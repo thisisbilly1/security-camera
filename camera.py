@@ -16,7 +16,7 @@ class Camera(threading.Thread):
     self.lock = threading.Lock()
     self.stopped = False
 
-    self.max_frame_rate = 30
+    self.max_frame_rate = 60
     self.frame_interval = 1.0 / self.max_frame_rate
 
     self.nightMode = False
@@ -41,8 +41,7 @@ class Camera(threading.Thread):
         # If the video file ends, rewind it and continue streaming
         # self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
         continue
-      with self.lock:
-        self.frame = frame
+      self.frame = frame
       elapsed_time = time.time() - start_time
       if (elapsed_time < self.frame_interval):
         time.sleep(self.frame_interval - elapsed_time)

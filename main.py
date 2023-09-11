@@ -1,7 +1,9 @@
 import cv2
 from camera import Camera
-from flask import Flask, Response
+from flask import Flask, Response, request, send_from_directory
 from client import Client
+from detector import Detector
+import os
 
 app = Flask(__name__)
 
@@ -37,7 +39,28 @@ def thumbnail():
     else:
         return Response(status=500)
 
+
+@app.route('/activities')
+def activities():
+    # read the files in the ./images directory
+    files = os.listdir('./images')
+    files.sort(key=os.path.getctime)
+    # get the last 10 files
+    files = files[-10:]
+    return files
+
+@app.route('/image')
+def getImage():
+    # get the imageId from the query params
+    imageId = request.args.get('imageId')
+    # send the image file
+    return send_from_directory('./images', imageId)
+
 if __name__ == '__main__':
     ws_client = Client(camera)
     ws_client.start()
+
+    detector = Detector(camera)
+    detector.start()
+
     app.run(host='0.0.0.0', port=5000)
