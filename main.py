@@ -47,7 +47,8 @@ def activities():
     files.sort(key=os.path.getctime)
     # get the last 10 files
     files = files[-10:]
-    return files
+    # return the filenames
+    return {'activities': files}
 
 @app.route('/image')
 def getImage():
