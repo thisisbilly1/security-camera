@@ -41,9 +41,8 @@ class Camera(threading.Thread):
         # If the video file ends, rewind it and continue streaming
         # self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
         continue
-      self.frame = frame
       # flip the camera vertically & horizontally
-      self.frame = cv2.flip(self.frame, -1)
+      self.frame = cv2.flip(frame, -1)
       elapsed_time = time.time() - start_time
       if (elapsed_time < self.frame_interval):
         time.sleep(self.frame_interval - elapsed_time)
