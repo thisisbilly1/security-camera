@@ -15,6 +15,10 @@ class Detector(threading.Thread):
     self.humanDetectedFramesThreshold = 10
     self.humanDetectedFrames = 0
 
+    # create ./images directory if it doesn't exist
+    if not os.path.exists('./images'):
+      os.makedirs('./images')
+
   def run(self):
     while not self.stopped:
       with self.camera.lock:
@@ -35,10 +39,7 @@ class Detector(threading.Thread):
       frame = self.camera.frame
     if frame is None:
       return
-    # create ./images directory if it doesn't exist
-    if not os.path.exists('./images'):
-      os.makedirs('./images')
-    
+
     # save the frame to ./images with the timestamp as the filename
     cv2.imwrite('./images/' + str(int(time.time())) + '.jpg', frame)
 
