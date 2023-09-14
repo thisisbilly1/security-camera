@@ -20,6 +20,8 @@ class Camera(threading.Thread):
     self.frame_interval = 1.0 / self.max_frame_rate
 
     self.nightMode = False
+    self.flipHorizontal = False
+    self.flipVertical = False
     
     # set the daemon thread to true so that the thread will stop when the main thread stops
     self.daemon = True
@@ -34,18 +36,26 @@ class Camera(threading.Thread):
       self.cap.set(cv2.CAP_PROP_EXPOSURE, 0.25)
 
   def run(self):
+    prev = 0
     while not self.stopped:
-      start_time = time.time()
       success, frame = self.cap.read()
       if not success:
         # If the video file ends, rewind it and continue streaming
         # self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
         continue
-      # flip the camera vertically & horizontally
-      self.frame = cv2.flip(frame, -1)
-      elapsed_time = time.time() - start_time
-      if (elapsed_time < self.frame_interval):
-        time.sleep(self.frame_interval - elapsed_time)
+      # flip the camera vertically & horizontally if needed
+      if self.flipHorizontal:
+        frame = cv2.flip(frame, 1)
+      if self.flipVertical:
+        frame = cv2.flip(frame, 0)
+      self.frame = frame
+      
+      # sleep for the remaining frame interval time
+      curr = time.time()
+      diff = curr - prev
+      if diff < self.frame_interval:
+        time.sleep(self.frame_interval - diff)
+      prev = curr
   
   def stop(self):
     self.stopped = True

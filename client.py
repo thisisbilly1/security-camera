@@ -31,6 +31,10 @@ class Client(threading.Thread):
       self.pong()
     elif (id == 'nightMode'):
       self.camera.toggleNightMode()
+    elif (id == 'flipHorizontal'):
+      self.camera.flipHorizontal = not self.camera.flipHorizontal
+    elif (id == 'flipVertical'):
+      self.camera.flipVertical = not self.camera.flipVertical
 
   def pong(self):
     print('pong')
