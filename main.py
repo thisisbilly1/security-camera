@@ -59,15 +59,11 @@ def activities():
 def getImage():
     # get the imageId from the query params
     imageId = request.args.get('imageId')
-    # send the image file
-    # return send_from_directory('./images', imageId + '.jpg')
+    print('loading image: ' + imageId)
     # load the image with opencv
     img = cv2.imread('./images/' + imageId + '.jpg')
-    # encode the image as a jpeg
     ret, buffer = cv2.imencode('.jpg', img)
-    # convert the image to bytes
     frame_bytes = buffer.tobytes()
-    # return the image
     return Response(frame_bytes, mimetype='image/jpeg')
 
 if __name__ == '__main__':
