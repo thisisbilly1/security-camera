@@ -58,8 +58,7 @@ def activities():
 @app.route('/image')
 def getImage():
     # get the imageId from the query params
-    imageId = request.args.get('imageId')
-    print('loading image: ' + imageId)
+    imageId = request.args.get('activityId')
     # load the image with opencv
     img = cv2.imread('./images/' + imageId + '.jpg')
     ret, buffer = cv2.imencode('.jpg', img)
