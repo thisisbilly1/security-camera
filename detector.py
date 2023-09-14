@@ -1,6 +1,5 @@
 import cv2
 import threading
-import os
 import time
 
 class Detector(threading.Thread):
@@ -18,10 +17,6 @@ class Detector(threading.Thread):
     self.max_frame_rate = 30
     self.frame_interval = 1.0 / self.max_frame_rate
 
-    # create ./images directory if it doesn't exist
-    if not os.path.exists('./images'):
-      os.makedirs('./images')
-
   def run(self):
     prev = 0
     while not self.stopped:
@@ -37,7 +32,7 @@ class Detector(threading.Thread):
       if len(boxes) > 0:
         self.humanDetectedFrames += 1
         if self.humanDetectedFrames >= self.humanDetectedFramesThreshold:
-          self.saveFrame()
+          self.camera.takePicture()
           self.humanDetectedFrames = 0
       else:
         self.humanDetectedFrames -= 1
@@ -48,14 +43,6 @@ class Detector(threading.Thread):
       if diff < self.frame_interval:
         time.sleep(self.frame_interval - diff)
       prev = curr
-  
-  def saveFrame(self):
-    with self.camera.lock:
-      frame = self.camera.frame
-    if frame is None:
-      return
-    # save the frame to ./images with the timestamp as the filename
-    cv2.imwrite('./images/' + str(int(time.time())) + '.jpg', frame)
 
   def stop(self):
     self.stopped = True

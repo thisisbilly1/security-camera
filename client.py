@@ -35,6 +35,8 @@ class Client(threading.Thread):
       self.camera.flipHorizontal = not self.camera.flipHorizontal
     elif (id == 'flipVertical'):
       self.camera.flipVertical = not self.camera.flipVertical
+    elif (id == 'takePicture'):
+      self.camera.takePicture()
 
   def pong(self):
     print('pong')
