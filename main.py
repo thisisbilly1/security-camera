@@ -50,6 +50,8 @@ def activities():
     files.reverse()
     # only return the 10 newest files
     files = files[:10]
+    # remove the ./images/ prefix from the filenames & the .jpg suffix
+    files = [f.split('/')[2].split('.')[0] for f in files]
     # return the list of files
     return {'activities': files}
 
@@ -58,7 +60,7 @@ def getImage():
     # get the imageId from the query params
     imageId = request.args.get('imageId')
     # send the image file
-    return send_from_directory('./images', imageId)
+    return send_from_directory('./images', imageId + '.jpg')
 
 if __name__ == '__main__':
     ws_client = Client(camera)
