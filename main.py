@@ -3,7 +3,7 @@ from camera import Camera
 from flask import Flask, Response, request, send_from_directory
 from client import Client
 from detector import Detector
-import os
+import glob
 
 app = Flask(__name__)
 
@@ -43,11 +43,14 @@ def thumbnail():
 @app.route('/activities')
 def activities():
     # read the files in the ./images directory
-    files = os.listdir('./images')
-    files.sort(key=os.path.getctime)
-    # get the last 10 files
-    files = files[-10:]
-    # return the filenames
+    files = glob.glob('./images/*.jpg')
+    # sort the files by the timestamp in the filename
+    files.sort(key=lambda x: int(x.split('/')[2].split('.')[0]))
+    # reverse the list so that the newest files are first
+    files.reverse()
+    # only return the 10 newest files
+    files = files[:10]
+    # return the list of files
     return {'activities': files}
 
 @app.route('/image')
