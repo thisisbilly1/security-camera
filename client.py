@@ -42,6 +42,7 @@ class Client(threading.Thread):
       self.reboot()
 
   def reboot(self):
+    print('rebooting...')
     os.system('sudo reboot')
     
   def pong(self):
