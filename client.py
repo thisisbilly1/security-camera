@@ -1,6 +1,7 @@
 import socketio
 import threading
 import time
+import os
 
 class Client(threading.Thread):
   def __init__(self, camera):
@@ -37,7 +38,12 @@ class Client(threading.Thread):
       self.camera.flipVertical = not self.camera.flipVertical
     elif (id == 'takePicture'):
       self.camera.takePicture()
+    elif (id == 'reboot'):
+      self.reboot()
 
+  def reboot(self):
+    os.system('sudo reboot')
+    
   def pong(self):
     print('pong')
   

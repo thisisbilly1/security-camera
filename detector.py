@@ -24,10 +24,11 @@ class Detector(threading.Thread):
         frame = self.camera.frame
       if frame is None:
         continue
-        
+      
+      gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
       # if a human is detected, save the frame
       # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-      (boxes, weights) = self.hog.detectMultiScale(frame, winStride=(8,8))
+      (boxes, weights) = self.hog.detectMultiScale(gray, winStride=(8,8))
 
       if len(boxes) > 0:
         self.humanDetectedFrames += 1
