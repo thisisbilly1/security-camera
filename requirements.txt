@@ -1,4 +1,5 @@
 python-socketio
+python-socketio[client]
 python-dotenv
 numpy
 opencv-python

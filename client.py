@@ -28,6 +28,7 @@ class Client(threading.Thread):
 
 
   def on_message(self, id, data = None):
+    print(id)
     if (id == 'pong'):
       self.pong()
     elif (id == 'nightMode'):
